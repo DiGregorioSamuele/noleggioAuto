@@ -18,7 +18,7 @@
     $dataRestituzione = new DateTime($_GET['dataRestituzione']);
     $descrizione = htmlspecialchars($_GET['descrizione']);
 
-    // Query per ottenere le auto noleggiate
+    // Query per ottenere i dettagli del noleggio
     $query = "SELECT n.codice_noleggio, n.inizio, n.fine, a.targa, a.marca, a.modello, a.costo_giornaliero
               FROM noleggi n
               JOIN auto a ON n.auto = a.targa
@@ -26,6 +26,10 @@
               ORDER BY n.codice_noleggio";
 
     $result = mysqli_query($connection, $query);
+
+    // Aggiorna lo stato dell'auto come restituita
+    $updateRestituzione = "UPDATE noleggi SET auto_restituita = 1 WHERE codice_noleggio = '$codiceNoleggio'";
+    mysqli_query($connection, $updateRestituzione);
 
     if (mysqli_num_rows($result) != 0) {
         echo "<h1>Scontrino Noleggio</h1>";
@@ -35,6 +39,7 @@
                 <th>Auto</th>
                 <th>Data Inizio</th>
                 <th>Data Fine</th>
+                <th>Data Restituzione</th>
                 <th>Giorni</th>
                 <th>Prezzo Totale</th>
                 <th>Descrizione</th>
@@ -42,35 +47,23 @@
 
         while ($row = mysqli_fetch_assoc($result)) {
             $dataInizio = new DateTime($row['inizio']);
-            $dataFine = new DateTime(datetime: $row['fine']);
-            $giorni = 0; // Calcola i giorni inclusivi
+            $dataFine = new DateTime($row['fine']);
+            $giorni = 0;
             $prezzoNoleggio = 0;
 
-            // Caso Giorni extra
+            // Calcolo del prezzo
             if ($dataRestituzione > $dataFine) {
-                $giorni = $dataFine->diff($dataInizio)->days + 1; // Calcola i giorni inclusivi
-                $prezzoNoleggio=$giorni * $row['costo_giornaliero'];
+                $giorni = $dataFine->diff($dataInizio)->days + 1;
+                $prezzoNoleggio = $giorni * $row['costo_giornaliero'];
                 $giorniExtra = $dataRestituzione->diff($dataFine)->days;
-                $prezzoNoleggio += $giorniExtra * ($row['costo_giornaliero'] * 1.5); // Prezzo extra per giorni aggiuntivi
-            } 
-            else if ($dataRestituzione < $dataFine) {
-                $giorni = $dataRestituzione->diff($dataInizio)->days + 1; // Calcola i giorni inclusivi
-                $prezzoNoleggio=$giorni * $row['costo_giornaliero'];
-                $giorniExtra = $dataFine->diff($dataRestituzione)->days;
-                $prezzoNoleggio += $giorniExtra * ($row['costo_giornaliero'] * 0.5); // Prezzo scontato per giorni non utilizzati
-            } 
-            else if ($dataInizio == $dataRestituzione){
-                $prezzoNoleggio=$row['costo_giornaliero'];
-            } 
-            else if ($dataRestituzione == $dataFine) {
-                $giorni = $dataFine->diff($dataInizio)->days + 1; // Calcola i giorni inclusivi
-                $prezzoNoleggio=$giorni * $row['costo_giornaliero'];
-            }
-            else if ($dataRestituzione < $dataInizio){
-                error_log("Data di restituzione non valida: " . $dataRestituzione->format('Y-m-d'));
-            }
-            else {
-                $giorniExtra = 0;
+                $prezzoNoleggio += $giorniExtra * ($row['costo_giornaliero'] * 1.5);
+                $giorni += $giorniExtra;
+            } elseif ($dataRestituzione < $dataFine) {
+                $giorni = $dataRestituzione->diff($dataInizio)->days + 1;
+                $prezzoNoleggio = $giorni * $row['costo_giornaliero'];
+            } else {
+                $giorni = $dataFine->diff($dataInizio)->days + 1;
+                $prezzoNoleggio = $giorni * $row['costo_giornaliero'];
             }
 
             echo "<tr>";
@@ -78,9 +71,10 @@
             echo "<td>" . htmlspecialchars($row['marca'] . " " . $row['modello']) . "</td>";
             echo "<td>" . htmlspecialchars($row['inizio']) . "</td>";
             echo "<td>" . htmlspecialchars($row['fine']) . "</td>";
+            echo "<td>" . htmlspecialchars($dataRestituzione->format('Y-m-d')) . "</td>";
             echo "<td>" . htmlspecialchars($giorni) . "</td>";
             echo "<td>€ " . number_format($prezzoNoleggio, 2) . "</td>";
-            echo "<td> " . htmlspecialchars($descrizione) . "</td>";
+            echo "<td>" . htmlspecialchars($descrizione) . "</td>";
             echo "</tr>";
         }
 

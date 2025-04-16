@@ -14,19 +14,30 @@
         die("Connessione al database fallita: " . mysqli_connect_error());
     }
 
+    // Recupero dell'ultimo codice_noleggio
+    $queryUltimoCodice = "SELECT MAX(codice_noleggio) AS ultimoCodice FROM noleggi";
+    $resultUltimoCodice = mysqli_query($connection, $queryUltimoCodice);
+    $rowUltimoCodice = mysqli_fetch_assoc($resultUltimoCodice);
+    $idNoleggio = $rowUltimoCodice['ultimoCodice'] + 1; // Incrementa di 1
+
     // Recupero dei dati dal modulo
-    $idNoleggio = $_POST['idNoleggio'];
-    $targa = mysqli_real_escape_string($connection, $_POST['targaAuto']);;
-    $CF = $_POST['codiceFiscale'];
-    $dataInizio = $_POST['dataInizio'];
-    $dataFine = $_POST['dataFine'];
-    $restituita = isset($_POST['restituita']) ? 1 : 0; // Se la checkbox è selezionata, restituita = 1, altrimenti 0
+    $targa = isset($_GET['targaAuto']) ? mysqli_real_escape_string($connection, $_GET['targaAuto']) : '';
+    $CF = isset($_GET['codiceFiscale']) ? mysqli_real_escape_string($connection, $_GET['codiceFiscale']) : '';
+    $dataInizio = isset($_GET['dataInizio']) ? mysqli_real_escape_string($connection, $_GET['dataInizio']) : '';
+    $dataFine = isset($_GET['dataFine']) ? mysqli_real_escape_string($connection, $_GET['dataFine']) : '';
+    $restituita = 0; // Se la checkbox è selezionata, restituita = 1, altrimenti 0
+
+    // Controllo che tutti i campi siano stati compilati
+    if (empty($targa) || empty($CF) || empty($dataInizio) || empty($dataFine)) {
+        die("<p>Errore: Tutti i campi sono obbligatori.</p>");
+    }
 
     // Query per inserire il noleggio
-    $query = "INSERT INTO Noleggi VALUES ('$idNoleggio', '$targa', '$CF', '$dataInizio', '$dataFine', '$restituita')";
+    $query = "INSERT INTO noleggi (codice_noleggio, auto, socio, inizio, fine, auto_restituita) 
+              VALUES ('$idNoleggio', '$targa', '$CF', '$dataInizio', '$dataFine', '$restituita')";
 
     if (mysqli_query($connection, $query)) {
-        echo "<p>Auto noleggiata con successo!</p>";
+        echo "<p>Auto noleggiata con successo, il tuo codice noleggio è: $idNoleggio!</p>";
         echo "<table border='2'>";
         echo "<tr>";
         echo "<th>Codice Noleggio</th>";
