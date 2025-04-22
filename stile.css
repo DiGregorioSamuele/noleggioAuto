@@ -1,0 +1,39 @@
+
+
+
+body{
+	border: solid blue 2px;
+	
+}
+
+.centro{
+	text-align:center;
+}
+
+.corsivo{
+    font-style:italic;
+}
+
+img{
+	width:350px;
+	height:150px;
+}
+h1{
+	text-align:center;
+	color:blue;
+	padding: 15px;
+	background-color:gold;
+}
+ul{
+	list-style-image:url(pallino.gif);
+}
+p{
+	margin-left: 200px;
+	font-size:20px;
+}
+
+#su{
+	width:30px;
+	height:30px;
+	border:solid blue 2px;
+}
