@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Inserisci i dati del noleggio</title>
+    <script>
+        function validaDate(event) {
+            const dataInizio = document.getElementById('dataInizio').value;
+            const dataFine = document.getElementById('dataFine').value;
+
+            // Controlla se le date sono valide
+            if (!dataInizio || !dataFine) {
+                event.preventDefault();
+                alert("Entrambe le date devono essere selezionate.");
+                return;
+            }
+
+            // Controlla se la data di inizio è maggiore della data di fine
+            if (dataInizio > dataFine) {
+                event.preventDefault(); // Impedisce l'invio del modulo
+                alert("La data di inizio non può essere successiva alla data di fine.");
+            }
+        }
+    </script>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="stile.css" />
+</head>
+
+<body>
+    <h1 class="titoloPagine">Inserisci i dati del noleggio</h1>
+    <div class="container">
+        <form action="http://localhost/noleggioAuto/datiNoleggio.php" method="get" onsubmit="validaDate(event)">
+            <label for="dataInizio">Data Inizio:</label><br>
+            <input type="date" id="dataInizio" name="dataInizio" required><br><br>
+
+            <label for="dataFine">Data Fine:</label><br>
+            <input type="date" id="dataFine" name="dataFine" required><br><br>
+
+            <button type="submit">Visualizza auto disponibili</button>
+        </form>
+    </div>
+</body>
+
+</html>

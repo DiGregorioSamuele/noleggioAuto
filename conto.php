@@ -1,16 +1,18 @@
-<!-- filepath: c:\wamp64\www\noleggioAuto\conto.php -->
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Calcola Prezzo Noleggio</title>
+    <link rel="stylesheet" href="stile.css" />
 </head>
+
 <body>
     <?php
     // Connessione al database
-    $connection = mysqli_connect("localhost", "root", "", "noleggioAuto");
+    $connessione = mysqli_connect("localhost", "root", "", "noleggioAuto");
 
     // Controllo connessione
-    if (!$connection) {
+    if (!$connessione) {
         die("Connessione al database fallita: " . mysqli_connect_error());
     }
 
@@ -25,14 +27,16 @@
               WHERE n.codice_noleggio = '$codiceNoleggio'
               ORDER BY n.codice_noleggio";
 
-    $result = mysqli_query($connection, $query);
+    $risultato = mysqli_query($connessione, $query);
 
     // Aggiorna lo stato dell'auto come restituita
-    $updateRestituzione = "UPDATE noleggi SET auto_restituita = 1 WHERE codice_noleggio = '$codiceNoleggio'";
-    mysqli_query($connection, $updateRestituzione);
+    $aggiornaRestituzione = "UPDATE noleggi SET auto_restituita = 1 WHERE codice_noleggio = '$codiceNoleggio'";
+    mysqli_query($connessione, $aggiornaRestituzione);
 
-    if (mysqli_num_rows($result) != 0) {
-        echo "<h1>Scontrino Noleggio</h1>";
+    if (mysqli_num_rows($risultato) != 0) {
+        echo "<h1 class='titoloPagine'>Calcolo Noleggio</h1>";
+        echo "<div class='container' style='max-width: 1300px; margin: 0 auto;'>";
+        echo "<h2>Resoconto del noleggio: $codiceNoleggio</h2>";
         echo "<table border='2'>";
         echo "<tr>
                 <th>Codice Noleggio</th>
@@ -41,11 +45,12 @@
                 <th>Data Fine</th>
                 <th>Data Restituzione</th>
                 <th>Giorni</th>
+                <th>Costo Giornaliero</th>
                 <th>Prezzo Totale</th>
                 <th>Descrizione</th>
               </tr>";
 
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($risultato)) {
             $dataInizio = new DateTime($row['inizio']);
             $dataFine = new DateTime($row['fine']);
             $giorni = 0;
@@ -73,19 +78,26 @@
             echo "<td>" . htmlspecialchars($row['fine']) . "</td>";
             echo "<td>" . htmlspecialchars($dataRestituzione->format('Y-m-d')) . "</td>";
             echo "<td>" . htmlspecialchars($giorni) . "</td>";
+            echo "<td>€ " . number_format($row['costo_giornaliero'], 2) . "</td>";
             echo "<td>€ " . number_format($prezzoNoleggio, 2) . "</td>";
             echo "<td>" . htmlspecialchars($descrizione) . "</td>";
             echo "</tr>";
         }
 
-        echo "</table>";
+        echo "</table> <br>";
+        echo "<a href='menu.html' class='btn'>Torna al menu</a>";
+        echo "</div>";
     } else {
-        echo "<p>Nessun noleggio attivo trovato.</p>";
+        echo "<h1 class='titoloPagine'>Calcolo Noleggio</h1>";
+        echo "<div class='container'>";
+        echo "<h2>Nessun noleggio trovato</h2>";
+        echo "<a href='menu.html' class='btn'>Torna al menu</a>";
+        echo "</div>";
     }
 
     // Chiusura connessione
-    mysqli_close($connection);
+    mysqli_close($connessione);
     ?>
-    <br><a href="menu.html">Torna alla home</a>
 </body>
+
 </html>
