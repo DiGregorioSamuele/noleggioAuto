@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Montserrat:wght@600&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Comfortaa', sans-serif;
+    background-color: #f4f9ff;
+    color: #2c3e50;
+    line-height: 1.6;
+    background-image: url('images/sfondo2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.titoloPagine {
+    background-color: #1e3a8a;
+    padding: 15px 0;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: #ffffff;
+}
+
+.titoloMenu,
+h2,
+h3 {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: #1e3a8a;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    background-color: #1e3a8a;
+    padding: 15px 0;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #a5c4ff;
+}
+
+button,
+.btn {
+    font-family: 'Comfortaa', sans-serif;
+    background-color: #3b82f6;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    text-align: center;
+    margin: auto;
+    width: fit-content;
+    text-decoration: none;
+}
+
+
+button:hover,
+.btn:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 2px solid #cbd5e1;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 1em;
+    background-color: #ffffff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 1rem;
+}
+
+table th {
+    background-color: #1e3a8a;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+table tr:hover {
+    background-color: #e0f2fe;
+    transition: background-color 0.3s ease;
+}
+
+table td {
+    color: #374151;
+}
+
+table th:first-child,
+table td:first-child {
+    border-left: none;
+}
+
+table th:last-child,
+table td:last-child {
+    border-right: none;
+}
+
+img {
+    max-width: 100%;
+    border-radius: 12px;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+textarea {
+    height: 50px;
+    width: 300px;
+}
+
+p {
+    font-size: 1 em;
+    text-align: center;
+}

@@ -1,16 +1,18 @@
-<!-- filepath: c:\wamp64\www\noleggioAuto\visualizzaAuto.php -->
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Auto Disponibili</title>
+    <link rel="stylesheet" href="stile.css" />
 </head>
+
 <body>
     <?php
     // Connessione al database
-    $connection = mysqli_connect("localhost", "root", "", "noleggioAuto");
+    $connessione = mysqli_connect("localhost", "root", "", "noleggioAuto");
 
     // Controllo connessione
-    if (!$connection) {
+    if (!$connessione) {
         die("Connessione al database fallita: " . mysqli_connect_error());
     }
 
@@ -31,32 +33,40 @@
         )
     ";
 
-    $result = mysqli_query($connection, $query);
+    $risultato = mysqli_query($connessione, $query);
 
     // Visualizzazione delle auto disponibili
-    if (mysqli_num_rows($result) != 0) {
-        echo "<h1>Auto disponibili dal $dataInizio al $dataFine</h1>";
+    if (mysqli_num_rows($risultato) != 0) {
+        echo "<h1 class='titoloPagine'>Auto disponibili</h1>";
+        echo "<div class='container'>";
+        echo "<h2>Dal $dataInizio al $dataFine</h2>";
         echo "<table border='2'>";
         echo "<tr>";
         echo "<th>Targa</th>";
         echo "<th>Marca</th>";
         echo "<th>Modello</th>";
         echo "</tr>";
-        while ($row = mysqli_fetch_array($result)) {
+        while ($row = mysqli_fetch_array($risultato)) {
             echo "<tr>";
             echo "<td>$row[targa]</td>";
             echo "<td>$row[marca]</td>";
             echo "<td>$row[modello]</td>";
             echo "</tr>";
         }
-        echo "</table>";
+        echo "</table> <br>";
+        echo "<a href='menu.html' class='btn'>Torna al menu</a>";
+        echo "</div>";
     } else {
-        echo "<p>Nessuna auto disponibile per il periodo selezionato.</p>";
+        echo "<h1 class='titoloPagine'>Auto disponibili</h1>";
+        echo "<div class='container'>";
+        echo "<h2>Nessuna auto disponibile per il periodo selezionato</h2>";
+        echo "<a href='menu.html' class='btn'>Torna al menu</a>";
+        echo "</div>";
     }
-    
+
     // Chiusura connessione
-    mysqli_close($connection);
+    mysqli_close($connessione);
     ?>
 </body>
-<a href="menu.html">Torna alla home</a>
+
 </html>

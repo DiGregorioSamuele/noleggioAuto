@@ -1,20 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
+
 <head>
-	<link rel="stylesheet" href="stile.css"/>
-	<title>	operazioni su database</title>
+    <meta charset="UTF-8">
+    <title>Menu Noleggio Auto</title>
+    <link rel="stylesheet" href="stile.css">
 </head>
+
 <body>
-	<div>
-		<h1>MENU</h1>
-<ul>
-  <li><a href="periodoAuto.html">Visualizza auto disponibili in un determinato periodo</a><br></li> 
-  <li><a href="http://localhost/noleggioAuto/periodoNoleggio.php">Visualizza noleggi effettuati da un socio</a><br></li>
-  <li><a href="http://localhost/noleggioAuto/datiNoleggio.php">Inserisci un nuovo noleggio</a><br></li>
-  <li><a href="http://localhost/noleggioAuto/aggiornaNoleggio.php">Aggiornamento noleggio</a><br></li>
-  <li><a href="http://localhost/noleggioAuto/calcolaConto.php">Calcolo noleggio</a><br></li>
-  <li><a href="http://localhost/noleggioAuto/modificaStatoAuto.php">Modifica stato auto</a></li>
-</ul>
-   </div>	
+    <!-- Barra di navigazione -->
+    <nav>
+        <!-- Link per accedere alle varie funzionalità -->
+        <a href="http://localhost/noleggioAuto/periodoAuto.html">Visualizza Auto</a>
+        <a href="http://localhost/noleggioAuto/periodoNoleggioAuto.php">Inserisci Noleggio</a>
+        <a href="http://localhost/noleggioAuto/periodoNoleggio.php">Visualizza Noleggi</a>
+    </nav>
+
+    <!-- Contenitore principale -->
+    <div class="container">
+        <!-- Titolo principale del menu -->
+        <h1 class="titoloMenu">Benvenuto al Servizio di Noleggio Auto!</h1>
+
+        <!-- Card per la sezione "Le Nostre Auto" -->
+        <div class="card">
+            <h2>Le Nostre Auto</h2>
+            <p>Visualizza la gamma di veicoli da poter noleggiare</p>
+            <!-- Pulsante per accedere alla lista delle auto -->
+            <a href="http://localhost/noleggioAuto/listaAuto.php" class="btn">Vai alla lista</a>
+        </div>
+
+        <!-- Card per la sezione "Hai già un noleggio?" -->
+        <div class="card">
+            <h2>Hai già un noleggio?</h2>
+            <p>Restituzione veicolo e calcolo del noleggio</p>
+            <!-- Pulsante per accedere alla gestione dei noleggi -->
+            <a href="http://localhost/noleggioAuto/calcolaConto.php" class="btn">Gestisci noleggi</a>
+        </div>
+    </div>
 </body>
+
 </html>
